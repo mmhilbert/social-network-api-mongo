@@ -5,6 +5,7 @@ module.exports = {
     async getUsers(req, res) {
         try {
             const users = await User.find()
+                .populate('thoughts');
             res.json(users)
         } catch (err) {
             res.status(500).json(err);
@@ -73,7 +74,7 @@ module.exports = {
             console.log(req.body)
             const user = await User.findOneAndUpdate(
                 { _id: req.params.userId },
-                { $addToSet: { friends: req.body } },
+                { $addToSet: { friends: req.body.friendId } },
                 { runValidators: true, new: true }
             )
 
@@ -91,9 +92,10 @@ module.exports = {
     // remove a friend
     async removeFriend(req, res) {
         try {
+            console.log(req.params.friendId)
             const user = await User.findOneAndUpdate(
                 { _id: req.params.userId },
-                { $pull: { friend: { friendId: req.params.friendId } } },
+                { $pull: { friends: req.params.friendId } },
                 { runValidators: true, new: true }
             )
 
