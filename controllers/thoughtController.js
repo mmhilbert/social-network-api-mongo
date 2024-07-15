@@ -1,5 +1,4 @@
-const { default: Errors } = require('undici-types/errors');
-const { User, Thought } = require('../models')
+const { Thought } = require('../models')
 
 module.exports = {
     // get all thoughts 
